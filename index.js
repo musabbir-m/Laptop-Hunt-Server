@@ -49,6 +49,12 @@ async function run() {
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
+//get all buyers
+    app.get("/buyers", async (req, res) => {
+      const query = { role: "buyer" };
+      const result = await usersCollection.find(query).toArray();
+      res.send(result);
+    });
 
     //post users
     app.post("/users", async (req, res) => {
@@ -59,6 +65,14 @@ async function run() {
     
     //delete a seller
     app.delete('/sellers/:id', async(req,res)=>{
+      const id= req.params.id
+      const remove= {_id: ObjectId(id)}
+      const result= await usersCollection.deleteOne(remove)
+      res.send(result)
+    })
+
+    //delete a buyer
+    app.delete('/buyers/:id', async(req,res)=>{
       const id= req.params.id
       const remove= {_id: ObjectId(id)}
       const result= await usersCollection.deleteOne(remove)
