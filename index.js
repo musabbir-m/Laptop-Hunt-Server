@@ -42,28 +42,44 @@ async function run() {
       console.log("empty");
     });
 
+    //get all sellers
+
+    app.get("/sellers", async (req, res) => {
+      const query = { role: "seller" };
+      const result = await usersCollection.find(query).toArray();
+      res.send(result);
+    });
+
     //post users
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
       res.send(result);
     });
+    
+    //delete a seller
+    app.delete('/sellers/:id', async(req,res)=>{
+      const id= req.params.id
+      const remove= {_id: ObjectId(id)}
+      const result= await usersCollection.deleteOne(remove)
+      res.send(result)
+    })
 
-    // verify buyer role
+    // verify buyerRole
     app.get("/users/buyer/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email };
       const user = await usersCollection.findOne(query);
       res.send({ isBuyer: user?.role === "buyer" });
     });
-    //verify seller
+    //verify sellerRole
     app.get("/users/seller/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email };
       const user = await usersCollection.findOne(query);
       res.send({ isSeller: user?.role === "seller" });
     });
-    //verify admin
+    //verify adminRole
     app.get("/users/admin/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email };
