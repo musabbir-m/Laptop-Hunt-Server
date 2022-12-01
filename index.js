@@ -32,6 +32,13 @@ async function run() {
       const categories = await categoryCollection.find(query).toArray();
       res.send(categories);
     });
+
+    //add product to database
+    app.post("/product", async (req, res) => {
+      const product = req.body;
+      const result = await laptopsCollection.insertOne(product);
+      res.send(result);
+    });
     //get single category products
 
     app.get("/categories/:id", async (req, res) => {
@@ -49,7 +56,7 @@ async function run() {
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
-//get all buyers
+    //get all buyers
     app.get("/buyers", async (req, res) => {
       const query = { role: "buyer" };
       const result = await usersCollection.find(query).toArray();
@@ -62,22 +69,22 @@ async function run() {
       const result = await usersCollection.insertOne(user);
       res.send(result);
     });
-    
+
     //delete a seller
-    app.delete('/sellers/:id', async(req,res)=>{
-      const id= req.params.id
-      const remove= {_id: ObjectId(id)}
-      const result= await usersCollection.deleteOne(remove)
-      res.send(result)
-    })
+    app.delete("/sellers/:id", async (req, res) => {
+      const id = req.params.id;
+      const remove = { _id: ObjectId(id) };
+      const result = await usersCollection.deleteOne(remove);
+      res.send(result);
+    });
 
     //delete a buyer
-    app.delete('/buyers/:id', async(req,res)=>{
-      const id= req.params.id
-      const remove= {_id: ObjectId(id)}
-      const result= await usersCollection.deleteOne(remove)
-      res.send(result)
-    })
+    app.delete("/buyers/:id", async (req, res) => {
+      const id = req.params.id;
+      const remove = { _id: ObjectId(id) };
+      const result = await usersCollection.deleteOne(remove);
+      res.send(result);
+    });
 
     // verify buyerRole
     app.get("/users/buyer/:email", async (req, res) => {
