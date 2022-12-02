@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-
-const app = express();
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+require("dotenv").config();
+const app = express();
+
 const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
-require("dotenv").config();
+
 //
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.PASSWORD}@cluster0.z1jayhr.mongodb.net/?retryWrites=true&w=majority`;
@@ -55,7 +56,6 @@ async function run() {
       const query = { brandName: brand };
       const products = await laptopsCollection.find(query).toArray();
       res.send(products);
-      console.log("empty");
     });
 
     //post bookings
@@ -98,6 +98,7 @@ async function run() {
       const id = req.params.id;
       const filter = { _id: ObjectId(id) };
       const advertiseStatus = req.body;
+      console.log(advertiseStatus);
       const option = { upsert: true };
       const updaetdStatus = {
         $set: {
