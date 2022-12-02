@@ -93,20 +93,24 @@ async function run() {
       const result = await usersCollection.insertOne(user);
       res.send(result);
     });
-//advertise product
-app.put("/products/:id", async(req, res)=>{
-  const id= req.params.id 
-  const filter= {_id: ObjectId(id)}
-  const advertiseStatus= req.body 
-  const option= {upsert: true} 
-  const updaetdStatus= {
-    $set: {
-      advertised: advertiseStatus.advertised
-    }
-  }
-  const result= await laptopsCollection.updateOne(filter, updaetdStatus,option)
-  res.send(result)
-})
+    //advertise product
+    app.put("/products/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const advertiseStatus = req.body;
+      const option = { upsert: true };
+      const updaetdStatus = {
+        $set: {
+          advertised: advertiseStatus.advertised,
+        },
+      };
+      const result = await laptopsCollection.updateOne(
+        filter,
+        updaetdStatus,
+        option
+      );
+      res.send(result);
+    });
     //delete one product
     app.delete("/products/:id", async (req, res) => {
       const id = req.params.id;
@@ -116,11 +120,11 @@ app.put("/products/:id", async(req, res)=>{
     });
 
     //load add
-    app.get("/ads", async(req, res)=>{
-      const query= {advertised: 'true'}
-      const result= await laptopsCollection.find(query).toArray()
-      res.send( result)
-    })
+    app.get("/ads", async (req, res) => {
+      const query = { advertised: "true" };
+      const result = await laptopsCollection.find(query).toArray();
+      res.send(result);
+    });
 
     //delete a seller
     app.delete("/sellers/:id", async (req, res) => {
