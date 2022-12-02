@@ -25,7 +25,7 @@ async function run() {
     const categoryCollection = client.db("usedLaptop").collection("categories");
     const laptopsCollection = client.db("usedLaptop").collection("laptops");
     const usersCollection = client.db("usedLaptop").collection("users");
-
+    const bookingCollection = client.db("usedLaptop").collection("bookings");
     //to get categories
     app.get("/categories", async (req, res) => {
       const query = {};
@@ -42,12 +42,20 @@ async function run() {
     //get single category products
 
     app.get("/categories/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
+      const brand = req.params.id;
+      const query = { brandName: brand };
       const products = await laptopsCollection.find(query).toArray();
       res.send(products);
       console.log("empty");
     });
+
+    //post bookings
+
+    app.post('/bookings', async (req, res)=>{
+      const booking= req.body 
+      const result= await bookingCollection.insertOne(booking)
+      res.send(result)
+    })
 
     //get all sellers
 
